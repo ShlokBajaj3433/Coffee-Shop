@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product page</title>
+    <link rel="stylesheet" href="productStyle.css">
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+    <header>
+        <a href="index.html"><img src="resources/cafe_img_logo.jpg" class="Clogo"></a>
+        <a href="index.html"><div class="logo">Leo Coffee</div></a>
+        
+        <nav class="navbar">
+            <a href="#">Home</a>
+            <a href="products.html">Products</a>
+            <a href="aboutUs.html">About Us</a>
+            <a href="Contact.html">Contact</a>
+        </nav>
+        <div class="hamburger" onclick="toggleMenu()">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </header>
+
+
+    <div class="container">
+        <div class="title">
+            Product List
+        </div>
+        <div class="listProduct">
+
+        </div>
+    </div>
+    
+    <script>
+
+function toggleMenu() {
+        const navbar = document.querySelector('.navbar');
+        const hamburger = document.querySelector('.hamburger');
+        navbar.classList.toggle('active');
+        hamburger.classList.toggle('active');
+    }
+
+        let products = null;
+        fetch('products.json')
+        .then(response => response.json())
+        .then(data => {
+            products = data;
+            console.log(products);
+            addDataToHtml();
+        })
+        
+        let listProduct = document.querySelector('.listProduct');
+        function addDataToHtml() {
+            products.forEach(product => {
+                
+                let newProduct = document.createElement('a');
+                newProduct.href = '/details.html?id=' + product.id;
+                newProduct.classList.add('item');
+                newProduct.innerHTML = `
+                    <img src="${product.image}"> 
+                    <h2>${product.name}</h2>
+                    <div class="price">${product.price}</div>
+
+                `;
+                listProduct.appendChild(newProduct);
+               
+    
+            });
+        }
+    </script>
+</body>
+
+</html>
